@@ -54,7 +54,6 @@ class CategoryActivity : AppCompatActivity() {
         toolbar = findViewById(R.id.materialToolbar)
         backgroundImage = findViewById(R.id.backgroundImage)
 
-        // Устанавливаем иконку меню и обработчик
         toolbar.setNavigationIcon(R.drawable.ic_menu)
         toolbar.setNavigationOnClickListener { view ->
             showCategoryMenu(view)

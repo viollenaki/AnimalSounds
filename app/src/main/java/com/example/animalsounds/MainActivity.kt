@@ -9,7 +9,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         
-        // Сразу открываем страницу с домашними животными
         val intent = Intent(this, CategoryActivity::class.java)
         intent.putExtra(CategoryActivity.EXTRA_CATEGORY, CategoryActivity.CATEGORY_FARM)
         startActivity(intent)

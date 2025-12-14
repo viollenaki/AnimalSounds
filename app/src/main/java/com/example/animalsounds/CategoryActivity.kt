@@ -6,6 +6,7 @@ import android.widget.GridView
 import android.widget.ImageView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.appbar.MaterialToolbar
@@ -15,6 +16,7 @@ class CategoryActivity : AppCompatActivity() {
     private lateinit var toolbar: MaterialToolbar
     private lateinit var backgroundImage: ImageView
     private var mediaPlayer: MediaPlayer? = null
+    private var currentCategory: String = CATEGORY_FARM
 
     private val animalSoundMap = mapOf(
         "Cow" to "cow",
@@ -52,11 +54,47 @@ class CategoryActivity : AppCompatActivity() {
         toolbar = findViewById(R.id.materialToolbar)
         backgroundImage = findViewById(R.id.backgroundImage)
 
-        toolbar.setNavigationOnClickListener {
-            finish()
+        // Устанавливаем иконку меню и обработчик
+        toolbar.setNavigationIcon(R.drawable.ic_menu)
+        toolbar.setNavigationOnClickListener { view ->
+            showCategoryMenu(view)
         }
 
-        val category = intent.getStringExtra(EXTRA_CATEGORY) ?: CATEGORY_FARM
+        currentCategory = intent.getStringExtra(EXTRA_CATEGORY) ?: CATEGORY_FARM
+        setupCategory(currentCategory)
+    }
+
+    private fun showCategoryMenu(anchor: android.view.View) {
+        val popup = PopupMenu(this, anchor)
+        popup.menuInflater.inflate(R.menu.main_menu, popup.menu)
+        popup.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.menu_farm -> {
+                    if (currentCategory != CATEGORY_FARM) {
+                        openCategory(CATEGORY_FARM)
+                    }
+                    true
+                }
+                R.id.menu_wild -> {
+                    if (currentCategory != CATEGORY_WILD) {
+                        openCategory(CATEGORY_WILD)
+                    }
+                    true
+                }
+                R.id.menu_birds -> {
+                    if (currentCategory != CATEGORY_BIRDS) {
+                        openCategory(CATEGORY_BIRDS)
+                    }
+                    true
+                }
+                else -> false
+            }
+        }
+        popup.show()
+    }
+
+    private fun openCategory(category: String) {
+        currentCategory = category
         setupCategory(category)
     }
 
